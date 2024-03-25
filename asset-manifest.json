@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/stothram-calendar/static/css/main.f4122adb.css",
+    "main.js": "/stothram-calendar/static/js/main.41d65a3c.js",
+    "index.html": "/stothram-calendar/index.html",
+    "main.f4122adb.css.map": "/stothram-calendar/static/css/main.f4122adb.css.map",
+    "main.41d65a3c.js.map": "/stothram-calendar/static/js/main.41d65a3c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f4122adb.css",
+    "static/js/main.41d65a3c.js"
+  ]
+}

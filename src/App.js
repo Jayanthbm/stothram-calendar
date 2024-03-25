@@ -261,7 +261,8 @@ export default function App() {
         setStartTime(selectedEvent.startTime);
         setEndTime(selectedEvent.endTime);
       }
-    }, [isEditing, selectedEvent]);
+    }, []);
+
     return (
       <div className="modal-container">
         <div className="modal-content">
@@ -330,10 +331,10 @@ export default function App() {
 
         const requiredMonthKeys = ["days"]; // Add more keys if necessary
 
-        for (const monthData of Object.values(parsedData.months)) {
+        for (const monthData of Object.values(data.months)) {
           if (
-            typeof parsedData[monthData] !== "object" ||
-            !requiredMonthKeys.every((key) => key in parsedData[monthData])
+            typeof data[monthData] !== "object" ||
+            !requiredMonthKeys.every((key) => key in data[monthData])
           ) {
             alert("Invalid JSON format: Missing required month keys.");
             return;
@@ -421,102 +422,102 @@ export default function App() {
   };
 
   const NewDataView = () => {
-    const [activeTab, setActiveTab] = useState("new");
-    const [selectedYear, setSelectedYear] = useState("");
-    const handleTabClick = (tab) => {
-      setActiveTab(tab);
-    };
-    const currentYear = new Date().getFullYear();
-    const years = [...Array(6)].map((_, index) => currentYear + index);
-    const [jsonUrl, setJsonUrl] = useState(null);
-    const [pasteJson, setPasteJson] = useState("");
-    const [editedJson, setEditedJSON] = useState(null);
-    const [lastEditedDateTime, setLastEditedDateTime] = useState("");
-    useEffect(() => {
-      let cd = localStorage.getItem("calendarData");
-      if (cd) {
-        setEditedJSON(cd);
-        setActiveTab("load");
-        const lastEditedDateTime = localStorage.getItem("calendarDataSaved");
-        setLastEditedDateTime(lastEditedDateTime);
-      }
-    }, []);
-    return (
-      <>
-        <ul className="nav-container">
-          <li
-            className={`nav-item ${activeTab === "new" ? "active" : ""}`}
-            onClick={() => handleTabClick("new")}
-          >
-            New Data
-          </li>
-          <li
-            className={`nav-item ${activeTab === "load" ? "active" : ""}`}
-            onClick={() => handleTabClick("load")}
-          >
-            Load Data
-          </li>
-        </ul>
-        <div className="data-view-container">
-          <div className={`new-data ${activeTab !== "new" ? "hidden" : ""}`}>
-            <div>
-              <label htmlFor="yearSelect">Year:</label>
-              <select
-                id="yearSelect"
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-              >
-                <option value="">Select Year</option>
-                {years.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <button
-              onClick={() => {
-                createJson(selectedYear);
-              }}
-            >
-              Create Json
-            </button>
-            <hr />
-          </div>
-          <div className={`load-data ${activeTab !== "load" ? "hidden" : ""}`}>
-            <div> Load an Json </div>
-            {editedJson && (
-              <div
-                onClick={() => handlePasteJson(editedJson)}
-                className="text-button"
-              >
-                Load Last Edited Data (Last edited: {lastEditedDateTime})
-              </div>
-            )}
-            <hr />
-            <input
-              type="text"
-              placeholder="Enter JSON URL..."
-              value={jsonUrl}
-              onChange={(e) => setJsonUrl(e.target.value)}
-            />
-            <button onClick={() => loadJSON(jsonUrl)}>Load Json </button>
-            <hr />
-            <textarea
-              value={pasteJson}
-              onChange={(e) => setPasteJson(e.target.value)}
-              rows="4"
-              cols="50"
-              placeholder="Paste JSON here..."
-            ></textarea>
-            <button onClick={() => handlePasteJson(pasteJson)}>
-              Load from Paste
-            </button>
-            <hr />
-          </div>
-        </div>
-      </>
-    );
+   const [activeTab, setActiveTab] = useState("new");
+   const [selectedYear, setSelectedYear] = useState("");
+   const handleTabClick = (tab) => {
+     setActiveTab(tab);
+   };
+   const currentYear = new Date().getFullYear();
+   const years = [...Array(6)].map((_, index) => currentYear + index);
+   const [jsonUrl, setJsonUrl] = useState(null);
+   const [pasteJson, setPasteJson] = useState("");
+   const [editedJson, setEditedJSON] = useState(null);
+   const [lastEditedDateTime, setLastEditedDateTime] = useState("");
+   useEffect(() => {
+     let cd = localStorage.getItem("calendarData");
+     if (cd) {
+       setEditedJSON(cd);
+       setActiveTab("load");
+       const lastEditedDateTime = localStorage.getItem("calendarDataSaved");
+       setLastEditedDateTime(lastEditedDateTime);
+     }
+   }, []);
+   return (
+     <>
+       <ul className="nav-container">
+         <li
+           className={`nav-item ${activeTab === "new" ? "active" : ""}`}
+           onClick={() => handleTabClick("new")}
+         >
+           New Data
+         </li>
+         <li
+           className={`nav-item ${activeTab === "load" ? "active" : ""}`}
+           onClick={() => handleTabClick("load")}
+         >
+           Load Data
+         </li>
+       </ul>
+       <div className="data-view-container">
+         <div className={`new-data ${activeTab !== "new" ? "hidden" : ""}`}>
+           <div>
+             <label htmlFor="yearSelect">Year:</label>
+             <select
+               id="yearSelect"
+               value={selectedYear}
+               onChange={(e) => setSelectedYear(e.target.value)}
+             >
+               <option value="">Select Year</option>
+               {years.map((year) => (
+                 <option key={year} value={year}>
+                   {year}
+                 </option>
+               ))}
+             </select>
+           </div>
+           <button
+             onClick={() => {
+               createJson(selectedYear);
+             }}
+           >
+             Create Json
+           </button>
+           <hr />
+         </div>
+         <div className={`load-data ${activeTab !== "load" ? "hidden" : ""}`}>
+           <div> Load an Json </div>
+           {editedJson && (
+             <div
+               onClick={() => handlePasteJson(editedJson)}
+               className="text-button"
+             >
+               Load Last Edited Data (Last edited: {lastEditedDateTime})
+             </div>
+           )}
+           <hr />
+           <input
+             type="text"
+             placeholder="Enter JSON URL..."
+             value={jsonUrl}
+             onChange={(e) => setJsonUrl(e.target.value)}
+           />
+           <button onClick={() => loadJSON(jsonUrl)}>Load Json </button>
+           <hr />
+           <textarea
+             value={pasteJson}
+             onChange={(e) => setPasteJson(e.target.value)}
+             rows="4"
+             cols="50"
+             placeholder="Paste JSON here..."
+           ></textarea>
+           <button onClick={() => handlePasteJson(pasteJson)}>
+             Load from Paste
+           </button>
+           <hr />
+         </div>
+       </div>
+     </>
+   );
   };
   return <div>{year ? <CalendarView /> : <NewDataView />}</div>;
 }
